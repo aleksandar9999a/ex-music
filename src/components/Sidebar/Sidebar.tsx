@@ -9,7 +9,10 @@ import {
   IonItem
 } from '@ionic/react';
 
-export const Sidebar = observer(({ routes }: { routes: any[] }) => (
+// Interfaces
+import { IRoute } from '../../interfaces/interfaces';
+
+export const Sidebar = observer(({ routes }: { routes: IRoute[] }) => (
   <IonMenu side="start" contentId="main">
     <IonContent>
       <IonList>

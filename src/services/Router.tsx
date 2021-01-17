@@ -1,11 +1,17 @@
-import { computed, observable } from "mobx";
-import { Folders } from "../pages/Folders/Folders";
-import { Home } from "../pages/Home/Home";
+import { computed, observable } from 'mobx';
+
+// Components
+import { Folders } from '../pages/Folders/Folders';
+import { Listen } from '../pages/Listen/Listen';
+
+// Interfaces
+import { IRoute } from '../interfaces/interfaces';
+
 
 export class Router {
   @observable
-  routes = [
-    { id: 1, path: '/', component: Home, type: 'menu', title: 'Listen' },
+  routes: IRoute[] = [
+    { id: 1, path: '/', component: Listen, type: 'menu', title: 'Listen' },
     { id: 2, path: '/folders', component: Folders, type: 'menu', title: 'Folders' }
   ]
 
