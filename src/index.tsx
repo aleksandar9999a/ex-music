@@ -11,9 +11,10 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 // Binding
-import './services/Player';
-import router from './services/Router';
+// import { router } from './services/Container';
+import { router } from './Container';
 
+router.setRoutes();
 
 // Render
 ReactDOM.render(<App router={router} />, document.getElementById('root'));
