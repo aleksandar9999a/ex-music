@@ -1,0 +1,7 @@
+{
+  "name": "ex-music",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
