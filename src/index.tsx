@@ -1,14 +1,19 @@
 // Styles
 import './styles';
 
+// DI Dependency
+import 'reflect-metadata';
+
 // React
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { Router } from './services/Router';
 
-const router = new Router()
+// Binding
+import './services/Player';
+import router from './services/Router';
+
 
 // Render
 ReactDOM.render(<App router={router} />, document.getElementById('root'));

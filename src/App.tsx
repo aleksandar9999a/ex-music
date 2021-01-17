@@ -23,8 +23,8 @@ const App = observer(({ router }: { router: Router }) => (
           <Sidebar routes={router.menu} />
 
           <IonRouterOutlet id="main">
-            {router.routes.map(route => (
-              <Route key={route.id} path={route.path} component={route.component} exact={true} />
+            {router.routes.map(({ id, path, Component, props }) => (
+              <Route key={id} path={path} component={() => <Component {...props}  />} exact={true} />
             ))}
           </IonRouterOutlet>
         </IonReactRouter>

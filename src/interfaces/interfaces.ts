@@ -1,7 +1,8 @@
 export interface IRoute {
   id: string | number,
   path: string,
-  component: React.FC,
+  Component: React.FC<any>,
   type: 'menu' | string,
-  title: string
+  title: string,
+  props: { [key: string]: any }
 }

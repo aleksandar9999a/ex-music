@@ -21,9 +21,10 @@ import {
 } from 'ionicons/icons';
 
 import { observer } from 'mobx-react';
+import { Player } from '../../services/Player';
 
 
-export const Listen = observer(() => (
+export const PlayerView = observer(({ player }: { player: Player }) => (
   <IonGrid>
     <IonRow>
       {window.innerWidth > 700 && (
