@@ -1,3 +1,4 @@
+import { createBrowserHistory } from 'history';
 import React from 'react';
 import { observer } from 'mobx-react';
 
@@ -15,11 +16,13 @@ import { Sidebar } from './components/Sidebar/Sidebar';
 import { Router } from './services/Router';
 
 
+export const history = createBrowserHistory();
+
 const App = observer(({ router }: { router: Router }) => (
   <IonApp>
     <IonPage>
       <IonContent fullscreen>
-        <IonReactRouter>
+        <IonReactRouter history={history}>
           <Sidebar routes={router.menu} />
 
           <IonRouterOutlet id="main">
