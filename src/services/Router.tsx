@@ -1,4 +1,4 @@
-import { computed, observable } from 'mobx';
+import { computed, makeObservable, observable } from 'mobx';
 
 // Components
 import { Folders } from '../pages/Folders/Folders';
@@ -17,6 +17,10 @@ export class Router {
   routes: IRoute[] = [];
 
   @inject(type.Player) private player!: Player
+
+  constructor () {
+    makeObservable(this);
+  }
   
   setRoutes () {
     this.routes = [
