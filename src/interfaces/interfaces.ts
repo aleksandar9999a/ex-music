@@ -6,3 +6,10 @@ export interface IRoute {
   title: string,
   props: { [key: string]: any }
 }
+
+export interface ITrack {
+  picture: string,
+  artist: string,
+  title: string,
+  url: string
+}
