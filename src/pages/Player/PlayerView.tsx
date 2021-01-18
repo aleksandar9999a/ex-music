@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // Components
 import {
@@ -16,6 +16,7 @@ import {
 // Icons
 import {
   play,
+  pause,
   chevronBack,
   chevronForward
 } from 'ionicons/icons';
@@ -25,7 +26,9 @@ import { Player } from '../../services/Player';
 
 
 export const PlayerView = observer(({ player }: { player: Player }) => {
-  console.debug(player)
+  useEffect(() => {
+    player.loadTracks()
+  }, [])
 
   return (
     <IonGrid>
@@ -33,7 +36,7 @@ export const PlayerView = observer(({ player }: { player: Player }) => {
         {window.innerWidth > 700 && (
           <IonCol sizeLg="6">
             Playlist
-            </IonCol>
+          </IonCol>
         )}
   
         <IonCol sizeLg="6">
@@ -53,6 +56,7 @@ export const PlayerView = observer(({ player }: { player: Player }) => {
             <IonRange
               max={100}
               color="success"
+              value={player.progres}
             >
             </IonRange>
           </div>
@@ -61,6 +65,7 @@ export const PlayerView = observer(({ player }: { player: Player }) => {
             <IonFabButton
               className="ion-margin-end"
               color="light"
+              onClick={() => player.handlePrev()}
             >
               <IonIcon icon={chevronBack} />
             </IonFabButton>
@@ -68,11 +73,15 @@ export const PlayerView = observer(({ player }: { player: Player }) => {
             <IonFabButton
               className="ion-margin-end dark"
               color="light"
+              onClick={() => player.handlePlay()}
             >
-              <IonIcon icon={play} />
+              <IonIcon icon={player.isStarted ? pause : play} />
             </IonFabButton>
   
-            <IonFabButton color="light">
+            <IonFabButton
+              color="light"
+              onClick={() => player.handleNext()}
+            >
               <IonIcon icon={chevronForward} />
             </IonFabButton>
           </div>
