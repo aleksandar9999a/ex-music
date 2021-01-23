@@ -13,3 +13,10 @@ export interface ITrack {
   title: string,
   url: string
 }
+
+export interface IPlaylist {
+  id: string,
+  name: string,
+  image: string | Blob | File | undefined,
+  values: ITrack[]
+}
