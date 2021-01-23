@@ -1,13 +1,14 @@
 import { computed, makeObservable, observable } from 'mobx';
 
 // Components
-import { Folders } from '../pages/Folders/Folders';
+import { PlaylistsView } from '../pages/Playlists/PlaylistsView';
 
 // Interfaces
 import { IRoute } from '../interfaces/interfaces';
 import { inject, injectable } from 'inversify';
 import { PlayerView } from '../pages/Player/PlayerView';
-import { Player } from './Player';
+import { PlayerController } from '../controllers/PlayerCotroller';
+import { PlaylistsController } from '../controllers/PlaylistsController';
 import { type } from '../Types';
 
 
@@ -16,7 +17,8 @@ export class Router {
   @observable
   routes: IRoute[] = [];
 
-  @inject(type.Player) private player!: Player
+  @inject(type.PlayerController) private playerController!: PlayerController;
+  @inject(type.PlaylistsController) private playlistsController!: PlaylistsController;
 
   constructor () {
     makeObservable(this);
@@ -31,16 +33,18 @@ export class Router {
         type: 'menu',
         title: 'Listen',
         props: {
-          player: this.player
+          playerController: this.playerController
         }
       },
       {
         id: 2,
-        path: '/folders',
-        Component: Folders,
+        path: '/playlists',
+        Component: PlaylistsView,
         type: 'menu',
-        title: 'Folders',
-        props: {}
+        title: 'Playlists',
+        props: {
+          playlistsController: this.playlistsController
+        }
       }
     ]
   }

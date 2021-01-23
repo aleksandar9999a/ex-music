@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
 
 // Components
 import {
@@ -21,13 +22,13 @@ import {
   chevronForward
 } from 'ionicons/icons';
 
-import { observer } from 'mobx-react';
-import { Player } from '../../services/Player';
+// Controllers
+import { PlayerController } from '../../controllers/PlayerCotroller';
 
 
-export const PlayerView = observer(({ player }: { player: Player }) => {
+export const PlayerView = observer(({ playerController }: { playerController: PlayerController }) => {
   useEffect(() => {
-    player.loadTracks()
+    playerController.loadTracks()
   }, [])
 
   return (
@@ -56,7 +57,7 @@ export const PlayerView = observer(({ player }: { player: Player }) => {
             <IonRange
               max={100}
               color="success"
-              value={player.progres}
+              value={playerController.progres}
             >
             </IonRange>
           </div>
@@ -65,7 +66,7 @@ export const PlayerView = observer(({ player }: { player: Player }) => {
             <IonFabButton
               className="ion-margin-end"
               color="light"
-              onClick={() => player.handlePrev()}
+              onClick={() => playerController.handlePrev()}
             >
               <IonIcon icon={chevronBack} />
             </IonFabButton>
@@ -73,14 +74,14 @@ export const PlayerView = observer(({ player }: { player: Player }) => {
             <IonFabButton
               className="ion-margin-end dark"
               color="light"
-              onClick={() => player.handlePlay()}
+              onClick={() => playerController.handlePlay()}
             >
-              <IonIcon icon={player.isStarted ? pause : play} />
+              <IonIcon icon={playerController.isStarted ? pause : play} />
             </IonFabButton>
   
             <IonFabButton
               color="light"
-              onClick={() => player.handleNext()}
+              onClick={() => playerController.handleNext()}
             >
               <IonIcon icon={chevronForward} />
             </IonFabButton>

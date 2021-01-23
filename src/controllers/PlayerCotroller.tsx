@@ -1,13 +1,13 @@
-import { history } from './../App';
-import { injectable } from 'inversify';
+import { history } from '../App';
+import { inject, injectable } from 'inversify';
 import { action, makeObservable, observable } from 'mobx';
 import { ITrack } from '../interfaces/interfaces';
-import { Plugins } from '@capacitor/core';
-const { Storage } = Plugins;
+import { type } from '../Types';
+import { StorageService } from '../services/Storage';
 
 
 @injectable()
-export class Player {
+export class PlayerController {
   @observable
   isStarted: boolean = false;
 
@@ -25,17 +25,19 @@ export class Player {
   @observable
   tracks: ITrack[] = [];
 
+  @inject(type.StorageService) private storageService!: StorageService
+
   constructor () {
     makeObservable(this);
   }
 
   @action
   loadTracks () {
-    Storage.get({ key: 'music' }).then(data => {
-      if (!data.value) {
+    return this.storageService.getMusicFromStorage()
+      .then(console.debug)
+      .catch(err => {
         history.push('/folders');
-      }
-    })
+      })
   }
 
   @action

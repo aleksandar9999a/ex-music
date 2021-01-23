@@ -10,11 +10,16 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import { setChonkyDefaults } from 'chonky';
+import { ChonkyIconFA } from 'chonky-icon-fontawesome';
+
 // Binding
-// import { router } from './services/Container';
 import { router } from './Container';
 
 router.setRoutes();
+
+// Somewhere in your `index.ts`:
+setChonkyDefaults({ iconComponent: ChonkyIconFA });
 
 // Render
 ReactDOM.render(<App router={router} />, document.getElementById('root'));

@@ -1,4 +1,6 @@
 export const type = {
-  Player: Symbol.for('Player'),
+  PlaylistsController: Symbol.for('PlaylistsController'),
+  PlayerController: Symbol.for('PlayerController'),
+  StorageService: Symbol.for('StorageService'),
   Router: Symbol.for('Router')
 };
