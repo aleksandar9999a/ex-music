@@ -1,0 +1,43 @@
+.image-upload {
+  position: relative;
+  min-height: 200px;
+  background-color: gold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 3px rgba(0, 0, 0, 0.356);
+}
+
+.image-upload img {
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
+}
+
+.image-upload input {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.image-upload__preview-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.image-upload__image-box {
+  width: 100%;
+  height: 100%;
+}
+
+.image-upload__input-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+
