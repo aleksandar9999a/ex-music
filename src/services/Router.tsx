@@ -1,14 +1,15 @@
 import { computed, makeObservable, observable } from 'mobx';
+import { inject, injectable } from 'inversify';
 
-// Components
-import { PlaylistsView } from '../pages/Playlists/PlaylistsView';
+// Controllers
+import { PlayerController } from '../controllers/PlayerCotroller';
+import { PlaylistsController } from '../controllers/PlaylistsController';
+import { PlaylistController } from '../controllers/PlaylistController';
 
 // Interfaces
 import { IRoute } from '../interfaces/interfaces';
-import { inject, injectable } from 'inversify';
-import { PlayerView } from '../pages/Player/PlayerView';
-import { PlayerController } from '../controllers/PlayerCotroller';
-import { PlaylistsController } from '../controllers/PlaylistsController';
+
+// Types
 import { type } from '../Types';
 
 
@@ -19,12 +20,25 @@ export class Router {
 
   @inject(type.PlayerController) private playerController!: PlayerController;
   @inject(type.PlaylistsController) private playlistsController!: PlaylistsController;
+  @inject(type.PlaylistController) private playlistController!: PlaylistController;
 
   constructor () {
     makeObservable(this);
   }
   
-  setRoutes () {
+  setRoutes (components: any) {
+    const {
+      PlayerView,
+      PlaylistsView,
+      PlaylistView
+    } = components;
+
+    const {
+      playerController,
+      playlistsController,
+      playlistController
+    } = this;
+
     this.routes = [
       {
         id: 1,
@@ -32,9 +46,7 @@ export class Router {
         Component: PlayerView,
         type: 'menu',
         title: 'Listen',
-        props: {
-          playerController: this.playerController
-        }
+        props: { playerController }
       },
       {
         id: 2,
@@ -42,9 +54,13 @@ export class Router {
         Component: PlaylistsView,
         type: 'menu',
         title: 'Playlists',
-        props: {
-          playlistsController: this.playlistsController
-        }
+        props: { playlistsController }
+      },
+      {
+        id: 3,
+        path: '/playlist/:id',
+        Component: PlaylistView,
+        props: { playlistController }
       }
     ]
   }
