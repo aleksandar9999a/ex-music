@@ -62,7 +62,11 @@ export const PlaylistView =  observer(({ playlistController, routeParams }: IPla
 
       <IonList className="h-100 pt-3">
         {playlistController.playlist.values.map(track => (
-          <IonItem key={track.id} className="border-bottom">
+          <IonItem
+            key={track.id}
+            className="border-bottom"
+            onClick={() => playlistController.actionLoadTrack(track)}
+          >
             <IonAvatar className="mr-3">
               <img src={track.picture as string || 'assets/images/unknown.png'} onError={handleImageError} />
             </IonAvatar>

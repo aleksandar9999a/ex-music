@@ -32,3 +32,8 @@ export interface IPlaylistViewProps {
     getParams: () => match<{ id: string }>
   }
 }
+
+export interface ICurrentAudio {
+  id: string,
+  playlist: string
+}

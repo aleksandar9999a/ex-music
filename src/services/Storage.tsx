@@ -6,6 +6,7 @@ import localforage from 'localforage';
 
 // Interfaces
 import {
+  ICurrentAudio,
   IPlaylist,
   ITrack
 } from '../interfaces/interfaces';
@@ -36,6 +37,18 @@ export class StorageService {
       clearInterval(interval);
     }
   })
+
+  getCurrentAudio (): Promise<ICurrentAudio | null> {
+    return localforage.getItem('currentAudio')
+      .then(data => JSON.parse(data as string))
+  }
+
+  setCurrentAudio (track: ITrack) {
+    const data = { id: track.id, playlist: track.playlist }
+
+    return localforage.setItem('currentAudio', JSON.stringify(data))
+      .then(_ => data)
+  }
 
   getPlaylist (playlistId: string) {
     return this.getPlaylists()

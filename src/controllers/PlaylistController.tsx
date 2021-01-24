@@ -1,3 +1,4 @@
+import { history } from '../App';
 import { inject, injectable } from 'inversify';
 import { action, makeObservable, observable } from 'mobx';
 
@@ -8,7 +9,7 @@ import { type } from '../Types';
 import { StorageService } from '../services/Storage';
 
 // Interfaces
-import { IPlaylist } from '../interfaces/interfaces';
+import { IPlaylist, ITrack } from '../interfaces/interfaces';
 
 @injectable()
 export class PlaylistController {
@@ -26,11 +27,19 @@ export class PlaylistController {
   }
 
   @action
+  actionLoadTrack (track: ITrack) {
+    this.storageService.setCurrentAudio(track)
+      .then(_ => {
+        history.push('/');
+      })
+  }
+
+  @action
   addAudio (file: File) {
     const reader = new FileReader();
 
     reader.onload = (e: any) => {
-      this.storageService.saveAudio(this.playlist.id, e.target.result, file).then(console.debug)
+      this.storageService.saveAudio(this.playlist.id, e.target.result, file)
     }
 
     reader.readAsDataURL(file);
@@ -38,7 +47,6 @@ export class PlaylistController {
 
   @action
   setPlaylist = (playlist: IPlaylist) => {
-    console.debug(playlist)
     this.playlist = playlist;
   }
 
