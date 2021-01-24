@@ -39,6 +39,10 @@ export const PlaylistsView =  observer(({ playlistsController }: { playlistsCont
     }
   })
 
+  function handleImageError (e: any) {
+    e.target.src = 'assets/images/unknown.png'
+  }
+
   return (
     <div className="h-100">
       <IonHeader>
@@ -61,7 +65,7 @@ export const PlaylistsView =  observer(({ playlistsController }: { playlistsCont
         {playlistsController.playlists.map(playlist => (
           <IonItem key={playlist.id}>
             <IonAvatar className="mr-3">
-              <img src={playlist.image as string || '/assets/images/unknown.png'} />
+              <img src={playlist.image as string || 'assets/images/unknown.png'} onError={handleImageError} />
             </IonAvatar>
 
             <IonLabel>{playlist.name}</IonLabel>
