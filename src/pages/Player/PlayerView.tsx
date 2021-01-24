@@ -5,8 +5,6 @@ import { observer } from 'mobx-react';
 import {
   IonFabButton,
   IonIcon,
-  IonImg,
-  IonRange,
   IonSlide,
   IonSlides
 } from '@ionic/react';
@@ -52,7 +50,7 @@ export const PlayerView = observer(({ playerController }: { playerController: Pl
       >
         {playerController.tracks.map(track => (
           <IonSlide key={track.id}>
-            <IonImg src={track.picture || 'assets/images/unknown.png'} />
+            <img src={track.picture || 'assets/images/unknown.png'}/>
           </IonSlide>
         ))}
       </IonSlides>
