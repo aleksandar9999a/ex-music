@@ -127,6 +127,10 @@ export class PlayerController {
 
   @action
   handleSlideChange (index: number) {
+    if (!this.tracks[index]) {
+      return;
+    }
+
     this.track = this.tracks[index];
     this.wavesurfer.load(this.track.url);
   }
