@@ -36,7 +36,7 @@ export class PlayerController {
     return this.storageService.getMusicFromStorage()
       .then(console.debug)
       .catch(err => {
-        history.push('/folders');
+        history.push('/playlists');
       })
   }
 
