@@ -63,7 +63,7 @@ export const PlaylistsView =  observer(({ playlistsController }: { playlistsCont
 
       <IonList className="h-100">
         {playlistsController.playlists.map(playlist => (
-          <IonItem key={playlist.id}>
+          <IonItem key={playlist.id} onClick={() => { playlistsController.handlePlaylistClick(playlist); }}>
             <IonAvatar className="mr-3">
               <img src={playlist.image as string || 'assets/images/unknown.png'} onError={handleImageError} />
             </IonAvatar>

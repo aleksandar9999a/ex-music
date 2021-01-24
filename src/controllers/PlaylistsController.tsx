@@ -1,3 +1,4 @@
+import { history } from '../App';
 import { inject, injectable } from 'inversify';
 import { action, makeObservable, observable } from 'mobx';
 import { type } from '../Types';
@@ -28,6 +29,11 @@ export class PlaylistsController {
 
   constructor () {
     makeObservable(this);
+  }
+
+  @action
+  handlePlaylistClick (playlist: IPlaylist) {
+    history.push(`/playlist/${playlist.id}`);
   }
 
   @action
