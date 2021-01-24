@@ -1,9 +1,16 @@
 import { history } from '../App';
 import { inject, injectable } from 'inversify';
 import { action, makeObservable, observable } from 'mobx';
-import { IPlaylist, ITrack } from '../interfaces/interfaces';
-import { type } from '../Types';
+import WaveSurfer from 'wavesurfer.js';
+
+// Services
 import { StorageService } from '../services/Storage';
+
+// Types
+import { type } from '../Types';
+
+// Interfaces
+import { IPlaylist, ITrack } from '../interfaces/interfaces';
 
 
 @injectable()
@@ -36,6 +43,9 @@ export class PlayerController {
   @observable
   tabIndex: number = 0;
 
+  @observable
+  wavesurfer!: WaveSurfer;
+
   @inject(type.StorageService) private storageService!: StorageService
 
   constructor () {
@@ -44,12 +54,28 @@ export class PlayerController {
 
   @action
   setParams = (data: [string, IPlaylist]) => {
+    this.wavesurfer = WaveSurfer.create({
+      container: '#waveform',
+      height: 70,
+      barWidth: 3,
+      barHeight: 1,
+      cursorWidth: 1,
+      barRadius: 3
+    })
+
+    this.wavesurfer.on('ready', () => {
+      if (this.isStarted) {
+        this.wavesurfer.play();
+      }
+    });
+
     const index = data[1].values.findIndex(track => track.id === data[0]);
+
     this.tabIndex = index;
     this.track = data[1].values[index]
     this.playlist = data[1];
     this.tracks = this.playlist.values;
-    console.debug(this.tracks)
+    this.wavesurfer.load(this.track.url);
   }
 
   @action
@@ -74,16 +100,34 @@ export class PlayerController {
   @action
   handlePlay () {
     this.isStarted = !this.isStarted;
+    this.wavesurfer.playPause();
   }
 
   @action
-  handleNext () {}
+  handleNext () {
+    let index = this.tracks.findIndex(track => track.id === this.track.id);
+
+    if (index + 1 >= this.tracks.length) {
+      index = 0;
+    }
+
+    this.handleSlideChange(index);
+  }
 
   @action
-  handlePrev () {}
+  handlePrev () {
+    let index = this.tracks.findIndex(track => track.id === this.track.id);
+
+    if (index - 1 < 0) {
+      index = this.tracks.length - 1;
+    }
+
+    this.handleSlideChange(index);
+  }
 
   @action
   handleSlideChange (index: number) {
     this.track = this.tracks[index];
+    this.wavesurfer.load(this.track.url);
   }
 }

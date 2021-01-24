@@ -57,19 +57,14 @@ export const PlayerView = observer(({ playerController }: { playerController: Pl
         ))}
       </IonSlides>
       
-      <div className="ion-text-center ion-padding-top">
+      <div className="ion-text-center ion-padding-top ion-padding-bottom">
         <h2>{playerController.track.title}</h2>
         
-        <p>{playerController.track.author}</p>
+        <p>{playerController.track.artist || 'unknown'}</p>
       </div>
 
-      <div className="ion-padding-start ion-padding-end ion-margin-bottom">
-        <IonRange
-          max={100}
-          color="success"
-          value={playerController.progres}
-        >
-        </IonRange>
+      <div className="ion-padding-start ion-padding-end">
+        <div id="waveform"></div>
       </div>
 
       <div className="d-flex ion-align-items-center ion-justify-content-center ion-padding-top ion-padding-bottom">
