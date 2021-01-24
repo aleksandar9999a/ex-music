@@ -37,7 +37,7 @@ export const PlaylistsView =  observer(({ playlistsController }: { playlistsCont
     return () => {
       playlistsController.unsubscribeForPlaylists();
     }
-  })
+  }, [])
 
   function handleImageError (e: any) {
     e.target.src = 'assets/images/unknown.png'

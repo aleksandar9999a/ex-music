@@ -1,0 +1,40 @@
+/*
+  Playlist
+*/
+
+.playlist {
+  height: 100%;
+}
+
+.playlist .playlist__content {
+  position: relative;
+  height: 40vh;
+}
+
+.playlist .playlist__head {
+  background: rgba(0, 0, 0, .3);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.playlist img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.playlist .playlist__input {
+  opacity: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

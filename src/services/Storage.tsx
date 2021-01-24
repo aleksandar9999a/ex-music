@@ -1,26 +1,32 @@
+import * as mm from 'music-metadata-browser';
 import { injectable } from 'inversify';
 import { v4 as uuidv4 } from 'uuid';
-import { Plugins } from '@capacitor/core';
 import { Observable } from 'rxjs';
-import { IPlaylist } from '../interfaces/interfaces';
-const { Storage } = Plugins;
+import localforage from 'localforage';
+
+// Interfaces
+import {
+  IPlaylist,
+  ITrack
+} from '../interfaces/interfaces';
+
 
 @injectable()
 export class StorageService {
-  lastData: any = null;
-  isFirstSubmit: boolean = true;
-
   playlists: Observable<IPlaylist[]> = new Observable(subscriber => {
+    let lastData: any = null;
+    let isFirstSubmit: boolean = true;
+
     const interval = setInterval(() => {
-      return Storage.get({ key: 'playlists' })
+      return localforage.getItem('playlists')
         .then(data => {
-          if (data.value !== this.lastData) {
-            this.lastData = data.value;
-            subscriber.next(JSON.parse(data.value || '[]'));
+          if (data !== lastData) {
+            lastData = data;
+            subscriber.next(JSON.parse(data as string || '[]'));
           }
 
-          if (this.isFirstSubmit && !data.value) {
-            this.isFirstSubmit = false
+          if (isFirstSubmit && !data) {
+            isFirstSubmit = false
             subscriber.next([]);
           }
         })
@@ -31,21 +37,33 @@ export class StorageService {
     }
   })
 
-  getPlaylists (): Promise<IPlaylist[]> {
-    return Storage.get({ key: 'playlists' })
-      .then(data => {
-        return data.value
-          ? JSON.parse(data.value)
-          : []
+  getPlaylist (playlistId: string) {
+    return this.getPlaylists()
+      .then(playlists => {
+        return playlists.find(({ id }) => id === playlistId);
+      })
+      .then(playlist => {
+        if (!playlist) {
+          return Promise.reject(new Error('Playlist is not found!'))
+        }
+
+        return this.getMusicFromStorage()
+          .then(music => {
+            playlist.values = music.filter(track => track.playlist === playlistId);
+            return playlist;
+          })
       })
   }
 
-  getMusicFromStorage () {
-    return Storage.get({ key: 'music' })
+  getPlaylists (): Promise<IPlaylist[]> {
+    return localforage.getItem('playlists')
+      .then(data => JSON.parse(data as string || '[]'))
+  }
+
+  getMusicFromStorage (): Promise<ITrack[]> {
+    return localforage.getItem('music')
       .then(data => {
-        return data.value
-          ? Promise.resolve(JSON.parse(data.value))
-          : Promise.reject(new Error('No Music'))
+        return JSON.parse(data as string || '[]');
       })
   }
 
@@ -53,11 +71,33 @@ export class StorageService {
     return this.getPlaylists()
       .then(playlists => {
         const newPlaylists = playlists.filter(({ id }) => id !== removeId);
-        return Storage.set({
-          key: 'playlists',
-          value: JSON.stringify(newPlaylists)
-        })
+        return localforage.setItem('playlists', JSON.stringify(newPlaylists));
       })
+  }
+
+  saveAudio (playlistId: string, blob: string, file: File) {
+    return Promise.all([
+      this.getMusicFromStorage(),
+      mm.parseBlob(file)
+    ])
+      .then(data => {
+        const audio = {
+          ...data[1].common,
+          url: blob,
+          playlist: playlistId,
+          id: uuidv4()
+        }
+
+        if (!audio.title) {
+          audio.title = file.name;
+        }
+
+        return Promise.all([
+          localforage.setItem('music', JSON.stringify([...data[0], audio])),
+          audio
+        ]);
+      })
+      .then(data => data[1])
   }
 
   savePlaylist (name: string, image?: string | Blob | File | null) {
@@ -71,7 +111,7 @@ export class StorageService {
         };
 
         return Promise.all([
-          Storage.set({ key: 'playlists', value: JSON.stringify([...playlists, playlist]) }),
+          localforage.setItem('playlists', JSON.stringify([...playlists, playlist])),
           playlist
         ]);
       })

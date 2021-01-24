@@ -16,10 +16,11 @@ export class PlayerController {
 
   @observable
   track: ITrack = {
+    id: '',
+    playlist: '',
     picture: '',
     artist: '',
-    title: '',
-    url: ''
+    title: ''
   };
 
   @observable

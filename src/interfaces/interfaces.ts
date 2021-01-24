@@ -1,3 +1,6 @@
+import { match } from "react-router";
+import { PlaylistController } from "../controllers/PlaylistController";
+
 export interface IRoute {
   id: string | number,
   path: string,
@@ -8,15 +11,24 @@ export interface IRoute {
 }
 
 export interface ITrack {
+  id: string,
+  playlist: string,
   picture: string,
   artist: string,
   title: string,
-  url: string
+  [key: string]: any
 }
 
 export interface IPlaylist {
   id: string,
   name: string,
-  image: string | Blob | File | undefined,
+  image?: string | Blob | File | undefined,
   values: ITrack[]
+}
+
+export interface IPlaylistViewProps {
+  playlistController: PlaylistController,
+  routeParams: {
+    getParams: () => match<{ id: string }>
+  }
 }

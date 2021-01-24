@@ -1,5 +1,6 @@
 import { computed, makeObservable, observable } from 'mobx';
 import { inject, injectable } from 'inversify';
+import { matchPath } from 'react-router';
 
 // Controllers
 import { PlayerController } from '../controllers/PlayerCotroller';
@@ -60,7 +61,14 @@ export class Router {
         id: 3,
         path: '/playlist/:id',
         Component: PlaylistView,
-        props: { playlistController }
+        props: {
+          playlistController,
+          routeParams: {
+            getParams () {
+              return matchPath(window.location.pathname, '/playlist/:id')
+            }
+          }
+        }
       }
     ]
   }
