@@ -40,12 +40,11 @@ export const PlayerView = observer(({ playerController }: { playerController: Pl
   }
 
   return (
-    <div className="p-2">
+    <div className="player p-2">
       <IonSlides
         ref={slidesRef}
-        className="ion-margin-bottom"
+        className="player__slides ion-margin-bottom"
         pager={false}
-        style={{ maxHeight: '50vh' }}
         onIonSlideDidChange={handleSlides}
       >
         {playerController.tracks.map(track => (

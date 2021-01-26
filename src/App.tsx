@@ -6,30 +6,35 @@ import { observer } from 'mobx-react';
 import {
   IonApp,
   IonContent,
+  IonLabel,
   IonPage,
-  IonRouterOutlet
+  IonRouterOutlet,
+  IonSegment,
+  IonSegmentButton
 } from '@ionic/react';
 
 import { Route } from 'react-router-dom';
 import { IonReactRouter } from '@ionic/react-router';
-import { Sidebar } from './components/Sidebar/Sidebar';
 import { Router } from './services/Router';
+import Segment from './components/Segment/Segment';
 
 
 export const history = createBrowserHistory();
 
 const App = observer(({ router }: { router: Router }) => (
-  <IonApp>
+  <IonApp className="app">
     <IonPage>
       <IonContent fullscreen>
         <IonReactRouter history={history}>
-          <Sidebar routes={router.menu} />
+          <div className="app__content">
+            <IonRouterOutlet id="main">
+              {router.routes.map(({ id, path, Component, props }) => (
+                <Route key={id} path={path} component={() => <Component {...props}  />} exact={true} />
+              ))}
+            </IonRouterOutlet>
+          </div>
 
-          <IonRouterOutlet id="main">
-            {router.routes.map(({ id, path, Component, props }) => (
-              <Route key={id} path={path} component={() => <Component {...props}  />} exact={true} />
-            ))}
-          </IonRouterOutlet>
+          <Segment router={router} />
         </IonReactRouter>
       </IonContent>
     </IonPage>

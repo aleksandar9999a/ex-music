@@ -1,4 +1,4 @@
-import { computed, makeObservable, observable } from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 import { inject, injectable } from 'inversify';
 import { matchPath } from 'react-router';
 
@@ -12,12 +12,16 @@ import { IRoute } from '../interfaces/interfaces';
 
 // Types
 import { type } from '../Types';
+import { history } from '../App';
 
 
 @injectable()
 export class Router {
   @observable
   routes: IRoute[] = [];
+
+  @observable
+  activeRoute: string = '/';
 
   @inject(type.PlayerController) private playerController!: PlayerController;
   @inject(type.PlaylistsController) private playlistsController!: PlaylistsController;
@@ -46,7 +50,7 @@ export class Router {
         path: '/',
         Component: PlayerView,
         type: 'menu',
-        title: 'Listen',
+        title: 'Player',
         props: { playerController }
       },
       {
@@ -76,5 +80,11 @@ export class Router {
   @computed
   get menu () {
     return this.routes.filter(({ type }) => type === 'menu');
+  }
+
+  @action
+  changeRoute (route: IRoute) {
+    this.activeRoute = route.path;
+    history.push(route.path);
   }
 }

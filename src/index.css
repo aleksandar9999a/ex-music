@@ -38,3 +38,34 @@
   top: 0;
   left: 0;
 }
+
+/*
+  Player
+*/
+.player {
+  height: 100%;
+}
+
+.player .player__slides {
+  max-height: 45%;
+}
+
+/*
+  App
+*/
+
+.app .app__content {
+  height: 91vh;
+}
+
+.app .app__segment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app .app__segment-inner {
+  background: #000;
+  border-radius: 8px;
+  width: auto;
+}
