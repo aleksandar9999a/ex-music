@@ -6,11 +6,8 @@ import { observer } from 'mobx-react';
 import {
   IonApp,
   IonContent,
-  IonLabel,
   IonPage,
-  IonRouterOutlet,
-  IonSegment,
-  IonSegmentButton
+  IonRouterOutlet
 } from '@ionic/react';
 
 import { Route } from 'react-router-dom';
