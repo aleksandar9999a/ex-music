@@ -9,6 +9,10 @@ import {
   IonSlides
 } from '@ionic/react';
 
+import {
+  KeepAlive
+} from 'react-keep-alive';
+
 // Icons
 import {
   play,
@@ -61,7 +65,9 @@ export const PlayerView = observer(({ playerController }: { playerController: Pl
       </div>
 
       <div className="ion-padding-start ion-padding-end">
-        <div id="waveform"></div>
+        <KeepAlive name="Test">
+          <div id="waveform"></div>
+        </KeepAlive>
       </div>
 
       <div className="d-flex ion-align-items-center ion-justify-content-center ion-padding-top ion-padding-bottom">

@@ -10,6 +10,10 @@ import {
   IonRouterOutlet
 } from '@ionic/react';
 
+import {
+  Provider
+} from 'react-keep-alive';
+
 import { Route } from 'react-router-dom';
 import { IonReactRouter } from '@ionic/react-router';
 import { Router } from './services/Router';
@@ -20,21 +24,23 @@ export const history = createBrowserHistory();
 
 const App = observer(({ router }: { router: Router }) => (
   <IonApp className="app">
-    <IonPage>
-      <IonContent fullscreen>
-        <IonReactRouter history={history}>
-          <div className="app__content">
-            <IonRouterOutlet id="main">
-              {router.routes.map(({ id, path, Component, props }) => (
-                <Route key={id} path={path} component={() => <Component {...props}  />} exact={true} />
-              ))}
-            </IonRouterOutlet>
-          </div>
+    <Provider>
+      <IonPage>
+        <IonContent fullscreen>
+          <IonReactRouter history={history}>
+            <div className="app__content">
+              <IonRouterOutlet id="main">
+                {router.routes.map(({ id, path, Component, props }) => (
+                  <Route key={id} path={path} component={() => <Component {...props}  />} exact={true} />
+                ))}
+              </IonRouterOutlet>
+            </div>
 
-          <Segment router={router} />
-        </IonReactRouter>
-      </IonContent>
-    </IonPage>
+            <Segment router={router} />
+          </IonReactRouter>
+        </IonContent>
+      </IonPage>
+    </Provider>
   </IonApp>
 ))
 

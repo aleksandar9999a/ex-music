@@ -54,6 +54,10 @@ export class PlayerController {
 
   @action
   setParams = (data: [string, IPlaylist]) => {
+    if (this.wavesurfer) {
+      return;
+    }
+
     this.wavesurfer = WaveSurfer.create({
       container: '#waveform',
       height: 60,
