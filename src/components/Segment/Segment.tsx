@@ -5,7 +5,8 @@ import { observer } from 'mobx-react';
 import {
   IonLabel,
   IonSegment,
-  IonSegmentButton
+  IonSegmentButton,
+  IonToolbar
 } from '@ionic/react';
 
 import { Router } from '../../services/Router';
@@ -13,19 +14,21 @@ import { Router } from '../../services/Router';
 
 const Segment = observer(({ router }: { router: Router }) => (
   <div className="app__segment">
-    <IonSegment className="app__segment-inner">
-      {router.menu.map(route => (
-        <IonSegmentButton
-          key={route.id}
-          className={router.activeRoute === route.path ? 'segment-button-checked' : ''}
-          onClick={() => router.changeRoute(route)}
-        >
-          <IonLabel>
-            {route.title}
-          </IonLabel>
-        </IonSegmentButton>
-      ))}
-    </IonSegment>
+    <IonToolbar className="app__segment-inner" color="light">
+      <IonSegment>
+        {router.menu.map(route => (
+          <IonSegmentButton
+            key={route.id}
+            className={router.activeRoute === route.path ? 'segment-button-checked border-none' : ''}
+            onClick={() => router.changeRoute(route)}
+          >
+            <IonLabel>
+              {route.title}
+            </IonLabel>
+          </IonSegmentButton>
+        ))}
+      </IonSegment>
+    </IonToolbar>
   </div>
 ))
 
